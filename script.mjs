@@ -1,11 +1,33 @@
-// This is a placeholder file which shows how you can access JSON data defined in other files.
-// It can be loaded into index.html.
-// You can delete the contents of the file once you have understood how it works.
-// Note that when running locally, in order to open a web page which uses modules, you must serve the directory over HTTP e.g. with https://www.npmjs.com/package/http-server
-// You can't open the index.html file using a file:// URL.
+import { spellCheck, getDictionarySize } from "./common.mjs";
 
-import getDictionarySize from "./common.mjs";
+const textInput = document.getElementById("text-input");
+const checkButton = document.getElementById("check-button");
+const resultsDiv = document.getElementById("results");
+let customWords = [];
 
-window.onload = function() {
-    document.querySelector("body").innerText = `There are ${getDictionarySize()} words in the Basic English dictionary`;
-}
+checkButton.addEventListener("click", () => {
+  const text = textInput.value;
+  const mistakes = spellCheck(text, customWords);
+
+  resultsDiv.innerHTML = "";
+
+  if (mistakes.length === 0) {
+    resultsDiv.innerText = "No spelling mistakes!";
+  } else {
+    mistakes.forEach((word) => {
+      const mistakeDiv = document.createElement("div");
+      mistakeDiv.innerHTML = `The word '<span class="mistake">${word}</span>' is misspelled. Would you like to add it to the dictionary? 
+        <button class="add-word-button" data-word="${word}">Add '${word}'</button>`;
+      resultsDiv.appendChild(mistakeDiv);
+    });
+
+    const addButtons = document.querySelectorAll(".add-word-button");
+    addButtons.forEach(button => {
+      button.addEventListener("click", () => {
+        const wordToAdd = button.getAttribute("data-word").toLowerCase();
+        customWords.push(wordToAdd);
+        checkButton.click();
+      });
+    });
+  }
+});
