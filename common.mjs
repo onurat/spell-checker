@@ -21,5 +21,3 @@ export function spellCheck(text, customWords = []) {
 
   return mistakes;
 }
-
-export const getDictionarySize = () => words.length;

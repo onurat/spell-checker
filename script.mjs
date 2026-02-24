@@ -1,4 +1,4 @@
-import { spellCheck, getDictionarySize } from "./common.mjs";
+import { spellCheck } from "./common.mjs";
 
 const textInput = document.getElementById("text-input");
 const checkButton = document.getElementById("check-button");
