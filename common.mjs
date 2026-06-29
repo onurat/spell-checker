@@ -16,8 +16,7 @@ export function spellCheck(text, customWords = []) {
           mistakes.push(hWord);
         }
       });
-    }
-  }
+    } }
 
   return mistakes;
 }
